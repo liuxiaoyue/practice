@@ -8,40 +8,9 @@
 <body>
 <script type="text/javaScript" src="js/rq.js"></script>
 <script type="text/javaScript">
-	define("browser/debug", function(module, exports, require){
-		var dialog = require("comp/dialog");
-		var components = require("lib/components");
-		dialog.show();
-		components.hide();
-		module.exports = {
-			'get':function(){
-				console.log(1111);
-			},
-			'name': 'xiaoyue'
-		};
-	});
-	
-	define("comp/dialog", function(module, exports, require){
-		module.exports ={
-			show : function(){
-				console.log('show');
-			}
-		};
-	});
-
-	define("lib/components", function(module, exports, require){
-		module.exports ={
-			hide : function(){
-				console.log('hide');
-			}
-		}
-	});
-
-
-	var debug = require("browser/debug");
-	debug.get();
-	console.log(debug.name);
-
+	// var debug = require("browser/debug");
+	// debug.get();
+	// console.log(debug.name);
 </script>
 </body>
 </html>
