@@ -1,37 +1,47 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>浏览器加载commonjs模块实现</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<meta charset="utf-8">
+<title>浏览器加载commonjs模块实现</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
 </head>
 <body>
 <script type="text/javaScript" src="js/rq.js"></script>
 <script type="text/javaScript">
-require.register("browser/debug", function(module, exports, require){
-  console.log(1);
-  var dialog = require("comp/dialog");
-  var components = require("lib/components");
+	require.register("browser/debug", function(module, exports, require){
+		var dialog = require("comp/dialog");
+		var components = require("lib/components");
+		dialog.show();
+		components.hide();
+		module.exports = {
+			'get':function(){
+				console.log(1111);
+			},
+			'name': 'xiaoyue'
+		};
+	});
 
-  module.exports = {
-    'get':function(){},
-    'name': 'xiaoyue'
-  }
-});
+	require.register("comp/dialog", function(module, exports, require){
+		module.exports ={
+			show : function(){
+				console.log('show');
+			}
+		};
+	});
 
 
-require.register("comp/dialog", function(module, exports, require){
-   console.log(2);
-});
+	require.register("lib/components", function(module, exports, require){
+		module.exports ={
+			hide : function(){
+				console.log('hide');
+			}
+		}
+	});
 
 
-require.register("lib/components", function(module, exports, require){
-   console.log(3);
-});
-
-
-var debug = require("browser/debug");
-console.log(debug.name);
+	var debug = require("browser/debug");
+	debug.get();
+	console.log(debug.name);
 
 </script>
 </body>
