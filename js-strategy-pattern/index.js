@@ -14,4 +14,48 @@ var calcuateSalary = function(salary, level){
 
 //存在缺点：存在很多if else判断   函数缺乏弹性，如果再来个D,需要在函数内添加判断， 算法不能复用 
 
-//使用组合函数重构代码
+//面向对象的方式来实现奖金的计算
+var stragtegy = {
+    'A' : function(salary) {
+        return salary * 4;
+    },
+    'B' : function(salary) {
+        return salary * 3;
+    },
+    'C' : function(salary) {
+        return salary * 2;
+    }
+};
+
+var bonus = function(salary) {
+    this.salary = null;
+    this.levelObj = null;
+};
+
+bonus.prototype.setSalary = function(salary) {
+    this.salary = salary;
+};
+
+bonus.prototype.setLevel= function(levelObj){
+    this.levelObj = levelObj;
+};
+bonus.prototype.getBonus = function(){
+    return this.levelObj(this.salary);
+};
+
+
+var a = new bonus();
+a.setSalary(1000);
+a.setLevel(stragtegy['A']);
+console.log(a.getBonus());
+
+var b = new bonus();
+b.setSalary(2000);
+b.setLevel(stragtegy['B']);
+console.log(b.getBonus());
+
+var c = new bonus();
+c.setSalary(1000);
+c.setLevel(stragtegy['C']);
+console.log(c.getBonus());
+
