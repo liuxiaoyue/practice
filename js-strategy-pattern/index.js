@@ -59,3 +59,83 @@ c.setSalary(1000);
 c.setLevel(stragtegy['C']);
 console.log(c.getBonus());
 
+//奖金类普通实现
+var calSalary = function(level,salary){
+    return stragtegy[level](salary);
+};
+
+
+//表单策略类实现
+var formStrategy = {
+    isNotEmpty:function(value,errorMsg){
+        if(value === ''){
+            return errorMsg;
+        }
+    },
+    minLength : function(value, length, errorMsg){
+        if(value < length){
+            return errorMsg;
+        }
+    },
+    mobileFormate : function(value, errorMsg){
+        if(!/[1-9]/.test(value)){
+            return errorMsg;
+        }
+    }
+};
+
+var Validator = function(){
+    this.cache=[]; //储存校验规则
+};
+
+Validator.prototype = {
+    add : function(dom,rule,errorMsg){
+        var item = rule.split(':');
+        this.cache.push(function(){
+            var strage = item.shift();
+            item.unshift(dom.value);
+            item.push(errorMsg);
+            return formStrategy[strage].apply(dom,item);
+        });
+    },
+    start:function(){
+        var len = this.cache.length;
+        for(var i=0; i < len; i++){
+            var msg = this.cache[i]();
+            if(msg){
+                return msg;
+            }
+        }
+    }
+};
+
+var validatorFunc = function(){
+    var validator = new Validator();
+    validator.add(form.userName, 'isNotEmpty', '用户名不能为空');
+    validator.add(form.pwd, 'minLength:6', '密码长度最小为6');
+    validator.add(form.mobilePhone,'mobileFormate', '手机号不符合规则');
+    return validator.start();
+}
+
+var form = document.getElementById('form');
+form.onSubmit = function(){
+    var msg = validatorFunc();
+    if(msg){
+        alert(msg);
+        return;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
